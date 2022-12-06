@@ -8,17 +8,30 @@ class BMIRatingDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _biggerFont = const TextStyle(fontSize: 30);
+    final _upperLimit = bmiCategory.upperLimit > 100 ? "unbegrenzt" : bmiCategory.upperLimit.toString();
+    final _lowerLimit = bmiCategory.lowerLimit < 0.1 ? "0.0" : bmiCategory.lowerLimit.toString();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Rating detail'),
       ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            // Navigate back to first route when tapped.
-          },
-          child: Text(bmiCategory.text),
-        ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center, // horizontale Ausrichtung innerhalb der Column
+            mainAxisSize: MainAxisSize.min, // vertikale Ausrichtung
+            children: [
+              Text(
+                "Rating details",
+                style: _biggerFont,
+              ),
+              Text("Description"),
+              Text(bmiCategory.text),
+              Text("Upper limit: " + _upperLimit),
+              Text("Lower limit: " + _lowerLimit),
+            ],
+        )
+
       ),
     );
   }
