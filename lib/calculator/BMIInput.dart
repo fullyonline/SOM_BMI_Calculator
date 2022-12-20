@@ -45,6 +45,7 @@ class BmiInputState extends State<BmiInput> {
                     hintText: 'Height in cm',
                     labelText: 'Height *',
                   ),
+                  keyboardType: TextInputType.number,
                   controller: heightController,
                   validator: (String? value) {
                     return (value != null && value.isNotEmpty && double.tryParse(value) != null) ? null : "Enter valid number";
@@ -55,6 +56,7 @@ class BmiInputState extends State<BmiInput> {
                     hintText: 'Weight in kg',
                     labelText: 'Weight *',
                   ),
+                  keyboardType: TextInputType.number,
                   controller: weightController,
                   validator: (String? value) {
                     return (value != null && value.isNotEmpty && double.tryParse(value) != null) ? null : "Enter valid number";
