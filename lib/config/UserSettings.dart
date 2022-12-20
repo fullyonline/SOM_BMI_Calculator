@@ -22,14 +22,61 @@ class DropDown extends StatefulWidget {
 }
 
 class DropDownWidget extends State {
-  String dropdownValue = 'One';
+  String dropdownValue = 'Luqman';
+  String enteredUser = '';
+
   List<String> spinnerItems = [
-    'One',
-    'Two',
-    'Three',
-    'Four',
-    'Five'
+    'Luqman',
+    'Arber',
+    'Cris',
+    'Romano'
   ];
+
+  void onPressed(BuildContext context){
+    Widget cancelButton = TextButton(
+      child: const Text("Cancel"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    Widget okButton = TextButton(
+      child: const Text("OK"),
+      onPressed: () {
+        setState(() {
+          spinnerItems.add(enteredUser);
+          dropdownValue = enteredUser;
+        });
+
+        saveUser(enteredUser);
+        Navigator.of(context).pop();
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: Text("Enter username"),
+      content: TextField (
+        onChanged: (text) {
+          enteredUser = text;
+        },
+      ),
+      actions: [
+        cancelButton,
+        okButton,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      }
+    );
+  }
+
+  void saveUser(String enteredUser) {
+
+  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,14 +105,17 @@ class DropDownWidget extends State {
                 );
               }).toList(),
             ),
-
             Text(
               'Selected Item = ' + '$dropdownValue',
               style: TextStyle(
                 fontSize: 22,
                 color: Colors.black
               )
-            )
+            ),
+            ElevatedButton(
+              onPressed: () => onPressed(context),
+              child: const Text('Create user'),
+            ),
           ],
         )
       )
