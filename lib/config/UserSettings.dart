@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserSettings extends StatelessWidget {
   const UserSettings({super.key});
@@ -24,6 +25,7 @@ class DropDown extends StatefulWidget {
 class DropDownWidget extends State {
   String dropdownValue = 'Luqman';
   String enteredUser = '';
+  String shownUser = '';
 
   List<String> spinnerItems = [
     'Luqman',
@@ -32,7 +34,7 @@ class DropDownWidget extends State {
     'Romano'
   ];
 
-  void onPressed(BuildContext context){
+  Future onPressed(BuildContext context) async {
     Widget cancelButton = TextButton(
       child: const Text("Cancel"),
       onPressed: () {
@@ -74,8 +76,24 @@ class DropDownWidget extends State {
     );
   }
 
-  void saveUser(String enteredUser) {
+  Future showUser() async {
+    String? loadedUser = await loadUser();
+    if (loadedUser != null) {
+      setState(() {
+        shownUser = loadedUser;
+      });
+    }
+  }
 
+  Future saveUser(String username) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('selectedUser', username);
+  }
+
+  Future<String?> loadUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var loadedUser = prefs.getString('selectedUser');
+    return loadedUser;
   }
 
   Widget build(BuildContext context) {
@@ -113,8 +131,21 @@ class DropDownWidget extends State {
               )
             ),
             ElevatedButton(
-              onPressed: () => onPressed(context),
+              onPressed: () async => await onPressed(context),
               child: const Text('Create user'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                await showUser();
+              },
+              child: const Text('Show user'),
+            ),
+            Text(
+                'Selected user = ' + shownUser,
+                style: TextStyle(
+                    fontSize: 22,
+                    color: Colors.black
+                )
             ),
           ],
         )
