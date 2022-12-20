@@ -41,7 +41,7 @@ class DropDownWidget extends State {
               icon: Icon(Icons.arrow_drop_down),
               iconSize: 24,
               elevation: 16,
-              style: TextStyle(color: Colors.red, fontSize: 18),
+              style: TextStyle(color: Colors.black, fontSize: 18),
               underline: Container(
                 height: 2,
                 color: Colors.deepPurpleAccent,
