@@ -15,4 +15,8 @@ enum BMICategories {
 
   //Constructor to initialize the instance variable
   const BMICategories(this.text, this.lowerLimit, this.upperLimit);
+
+  static BMICategories getBmiCategorie(double bmi){
+    return BMICategories.values.where((element) => bmi < element.upperLimit && bmi >= element.lowerLimit).first;
+  }
 }
