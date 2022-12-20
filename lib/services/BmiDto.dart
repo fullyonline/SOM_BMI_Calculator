@@ -12,4 +12,5 @@ class BmiDto {
   }
 
   String get bmiForForm => _bmi.toStringAsFixed(2);
+  BMICategories get bmiCategory => _bmiCategory;
 }
