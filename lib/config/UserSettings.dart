@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import '../preferences/UserPreferences.dart';
 
 class UserSettings extends StatelessWidget {
   const UserSettings({super.key});
@@ -50,7 +51,7 @@ class DropDownWidget extends State {
           dropdownValue = enteredUser;
         });
 
-        saveUser(enteredUser);
+        UserPreferences.saveUser(enteredUser);
         Navigator.of(context).pop();
       },
     );
@@ -77,7 +78,7 @@ class DropDownWidget extends State {
   }
 
   Future showUser() async {
-    String? loadedUser = await loadUser();
+    String? loadedUser = await UserPreferences.loadUser();
     if (loadedUser != null) {
       setState(() {
         shownUser = loadedUser;
@@ -85,16 +86,16 @@ class DropDownWidget extends State {
     }
   }
 
-  Future saveUser(String username) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('selectedUser', username);
-  }
-
-  Future<String?> loadUser() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var loadedUser = prefs.getString('selectedUser');
-    return loadedUser;
-  }
+  // Future saveUser(String username) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   prefs.setString('selectedUser', username);
+  // }
+  //
+  // Future<String?> loadUser() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   var loadedUser = prefs.getString('selectedUser');
+  //   return loadedUser;
+  // }
 
   Widget build(BuildContext context) {
     return Scaffold(
