@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../preferences/UserPreferences.dart';
+import 'LoadResult.dart';
 
 class UserSettings extends StatelessWidget {
   const UserSettings({super.key});
@@ -12,7 +13,7 @@ class UserSettings extends StatelessWidget {
         title: const Text('User settings'),
       ),
       body: Center(
-        child: DropDown()
+          child: DropDown()
       ),
     );
   }
@@ -24,16 +25,11 @@ class DropDown extends StatefulWidget {
 }
 
 class DropDownWidget extends State {
-  String dropdownValue = 'Luqman';
+  String? dropdownValue = null;
   String enteredUser = '';
   String shownUser = '';
 
-  List<String> spinnerItems = [
-    'Luqman',
-    'Arber',
-    'Cris',
-    'Romano'
-  ];
+  List<String> spinnerItems = [];
 
   Future onPressed(BuildContext context) async {
     Widget cancelButton = TextButton(
@@ -46,7 +42,7 @@ class DropDownWidget extends State {
     Widget okButton = TextButton(
       child: const Text("OK"),
       onPressed: () {
-        if(!spinnerItems.contains(enteredUser)) {
+        if (!spinnerItems.contains(enteredUser)) {
           setState(() {
             spinnerItems.add(enteredUser);
             dropdownValue = enteredUser;
@@ -60,7 +56,7 @@ class DropDownWidget extends State {
 
     AlertDialog alert = AlertDialog(
       title: Text("Enter username"),
-      content: TextField (
+      content: TextField(
         onChanged: (text) {
           enteredUser = text;
         },
@@ -72,89 +68,101 @@ class DropDownWidget extends State {
     );
 
     showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      }
-    );
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        }
+     );
   }
 
-  Future showUser() async {
-    String? loadedUser = await UserPreferences.loadUser();
-    if (loadedUser != null) {
-      setState(() {
-        shownUser = loadedUser;
-      });
+  Future<LoadResult> loadSavedData() async {
+    var loadedUsersList = await UserPreferences.loadUserList();
+    var loadedUser = await UserPreferences.loadUser();
+    return LoadResult(loadedUsersList, loadedUser);
+  }
+
+  void initDropdownButton(LoadResult loadResult) {
+    if (loadResult.loadedUsersList != null) {
+      spinnerItems = loadResult.loadedUsersList!;
+    }
+    else {
+      spinnerItems = [];
+    }
+
+    if (loadResult.loadedUser != null) {
+      dropdownValue = loadResult.loadedUser!;
+    }
+    else {
+      dropdownValue = null;
     }
   }
 
   Widget build(BuildContext context) {
-    Future<List<String>?> _usersFuture = UserPreferences.loadUserList();
+    Future<LoadResult> _loadUsersFuture = loadSavedData();
 
     return Scaffold(
-      body: Center(
-        child: FutureBuilder(
-          future: _usersFuture,
-          builder: (BuildContext context, AsyncSnapshot<List<String>?> snapshot) {
-            if (snapshot.hasData && snapshot.data != null) {
-              spinnerItems = snapshot.data!;
-              return Column(
-                children: <Widget>[
-                  DropdownButton(
-                    value: dropdownValue,
-                    icon: Icon(Icons.arrow_drop_down),
-                    iconSize: 24,
-                    elevation: 16,
-                    style: TextStyle(color: Colors.black, fontSize: 18),
-                    underline: Container(
-                      height: 2,
-                      color: Colors.deepPurpleAccent,
-                    ),
-                    onChanged: (data) {
-                      setState(() {
-                        dropdownValue = data!;
-                      });
-                    },
-                    items: spinnerItems.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                  Text(
-                      'Selected Item = ' + '$dropdownValue',
-                      style: TextStyle(
-                          fontSize: 22,
-                          color: Colors.black
-                      )
-                  ),
-                  ElevatedButton(
-                    onPressed: () async => await onPressed(context),
-                    child: const Text('Create user'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      await showUser();
-                    },
-                    child: const Text('Show user'),
-                  ),
-                  Text(
-                      'Selected user = ' + shownUser,
-                      style: TextStyle(
-                          fontSize: 22,
-                          color: Colors.black
-                      )
-                  ),
-                ],
-              );
-            }
-            else {
-              return const Text("No users created");
-            }
-          }
+        body: Center(
+            child: FutureBuilder(
+                future: _loadUsersFuture,
+                builder: (BuildContext context, AsyncSnapshot<LoadResult> snapshot) {
+                  if (!snapshot.hasData || snapshot.data == null) {
+                    spinnerItems = [];
+                    dropdownValue = null;
+                  } else {
+                    var loadResult = snapshot.data!;
+                    initDropdownButton(loadResult);
+                  }
+                  if (spinnerItems.isEmpty) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center, // horizontale Ausrichtung innerhalb der Column
+                      mainAxisSize: MainAxisSize.min, // vertikale Ausrichtung
+                      children: <Widget>[
+                        const Text('No users available'),
+                        ElevatedButton(
+                          onPressed: () async => await onPressed(context),
+                          child: const Text('Create user'),
+                        ),
+                      ],
+                    );
+                  }
+                  else {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center, // horizontale Ausrichtung innerhalb der Column
+                      mainAxisSize: MainAxisSize.min, // vertikale Ausrichtung
+                      children: <Widget>[
+                        DropdownButton(
+                          value: dropdownValue,
+                          icon: Icon(Icons.arrow_drop_down),
+                          iconSize: 24,
+                          elevation: 16,
+                          style: TextStyle(color: Colors.black, fontSize: 18),
+                          underline: Container(
+                            height: 2,
+                            color: Colors.deepPurpleAccent,
+                          ),
+                          onChanged: (data) {
+                            setState(() {
+                              dropdownValue = data!;
+                              UserPreferences.saveUser(dropdownValue!);
+                            });
+                          },
+                          items: spinnerItems.map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                        ElevatedButton(
+                          onPressed: () async => await onPressed(context),
+                          child: const Text('Create user'),
+                        ),
+                      ],
+                    );
+                  }
+                }
+            )
         )
-      )
     );
   }
 }
