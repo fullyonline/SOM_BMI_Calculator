@@ -29,64 +29,102 @@ class BmiInputState extends State<BmiInput> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text("Calculator"),
-          actions: const [OptionDropdown()]
-      ),
-      body:  Container(
-        margin: const EdgeInsets.all(30),
-        child: Center(
-          child: SizedBox(
-            width: 400,
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center, // horizontale Ausrichtung innerhalb der Column
-                mainAxisSize: MainAxisSize.min, // vertikale Ausrichtung
-                children: <Widget>[
-                TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: 'Height in cm',
-                    labelText: 'Height *',
-                  ),
-                  keyboardType: TextInputType.number,
-                  controller: heightController,
-                  validator: (String? value) {
-                    return (value != null && value.isNotEmpty && double.tryParse(value) != null) ? null : "Enter valid number";
-                  },
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: 'Weight in kg',
-                    labelText: 'Weight *',
-                  ),
-                  keyboardType: TextInputType.number,
-                  controller: weightController,
-                  validator: (String? value) {
-                    return (value != null && value.isNotEmpty && double.tryParse(value) != null) ? null : "Enter valid number";
-                  },
-                ),
-                  ElevatedButton(
-                    onPressed: () {
-                      int? height = int.tryParse(heightController.value.text);
-                      int? weight = int.tryParse(weightController.value.text);
-                      if (_formKey.currentState!.validate() && height != null && weight != null) {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => BMIResult(bmiDto: BmiDto(height, weight))));
-                      }
-                      else{
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Please fill in the width and height.')),
-                        );
-                      }
-                    },
-                    child: const Text('Calculate'),
-                  ),
-              ],
-            ),
-          )
-        )
-      )
-      )
-    );
+        appBar: AppBar(
+            title: Text("Calculator"), actions: const [OptionDropdown()]),
+        body: Container(
+            margin: const EdgeInsets.all(30),
+            child: Center(
+                child: SizedBox(
+                    width: 400,
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        // horizontale Ausrichtung innerhalb der Column
+                        mainAxisSize: MainAxisSize.min,
+                        // vertikale Ausrichtung
+                        children: <Widget>[
+                          TextFormField(
+                            decoration: const InputDecoration(
+                              hintText: 'Height in cm',
+                              labelText: 'Height *',
+                            ),
+                            keyboardType: TextInputType.number,
+                            controller: heightController,
+                            validator: (String? value) {
+                              return (value != null &&
+                                      value.isNotEmpty &&
+                                      double.tryParse(value) != null)
+                                  ? null
+                                  : "Enter valid number";
+                            },
+                          ),
+                          TextFormField(
+                            decoration: const InputDecoration(
+                              hintText: 'Weight in kg',
+                              labelText: 'Weight *',
+                            ),
+                            keyboardType: TextInputType.number,
+                            controller: weightController,
+                            validator: (String? value) {
+                              return (value != null &&
+                                      value.isNotEmpty &&
+                                      double.tryParse(value) != null)
+                                  ? null
+                                  : "Enter valid number";
+                            },
+                          ),
+                          Container(
+                            margin: EdgeInsets.all(10),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              // horizontale Ausrichtung innerhalb der Column
+                              mainAxisSize: MainAxisSize.min,
+                              // vertikale Ausrichtung
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.all(5),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      heightController.text = "";
+                                      weightController.text = "";
+                                    },
+                                    child: const Text('Clear all Values'),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.all(5),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      int? height = int.tryParse(
+                                          heightController.value.text);
+                                      int? weight = int.tryParse(
+                                          weightController.value.text);
+                                      if (_formKey.currentState!.validate() &&
+                                          height != null &&
+                                          weight != null) {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) => BMIResult(
+                                                    bmiDto: BmiDto(
+                                                        height, weight))));
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                              content: Text(
+                                                  'Please fill in the width and height.')),
+                                        );
+                                      }
+                                    },
+                                    child: const Text('Calculate'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    )))));
   }
 }
