@@ -2,6 +2,7 @@ import 'package:bmi_calculator/preferences/UserPreferences.dart';
 import 'package:flutter/material.dart';
 
 import '../services/BmiDto.dart';
+import '../OptionDropdown.dart';
 
 class BMIResult extends StatelessWidget {
   BMIResult({super.key, required this.bmiDto});
@@ -14,7 +15,8 @@ class BMIResult extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Show result"),
+          title: Text("Show result"),
+          actions: const [OptionDropdown()]
       ),
       body: Center(
         child: Column(

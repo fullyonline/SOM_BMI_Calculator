@@ -1,6 +1,7 @@
 import 'package:bmi_calculator/services/BmiDto.dart';
 import 'package:flutter/material.dart';
 
+import '../OptionDropdown.dart';
 import 'BMIResult.dart';
 
 class BmiInput extends StatefulWidget {
@@ -29,7 +30,8 @@ class BmiInputState extends State<BmiInput> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Calculator"),
+          title: Text("Calculator"),
+          actions: const [OptionDropdown()]
       ),
       body: Center(
           child: SizedBox(

@@ -1,8 +1,6 @@
-import 'package:bmi_calculator/calculator/BMIRatingLegend.dart';
 import 'package:bmi_calculator/calculator/BMIInput.dart';
+import 'package:bmi_calculator/OptionDropdown.dart';
 import 'package:flutter/material.dart';
-
-import 'config/Settings.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,42 +35,7 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Body Mass Index"),
-        actions: [
-          PopupMenuButton(
-              itemBuilder: (context) {
-                return [
-                  PopupMenuItem<int>(
-                    value: 0,
-                    child: Text("BMI Legend"),
-                  ),
-                  PopupMenuItem<int>(
-                    value: 1,
-                    child: Text("Settings"),
-                  ),
-                ];
-              },
-            onSelected: (value) {
-                switch(value) {
-                  case 0: {
-                    print("BMI Legend menu is selected.");
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => BMIRatingLegend()),
-                    );
-                  }
-                  break;
-                  case 1: {
-                    print("Settings menu is selected.");
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Settings()),
-                    );
-                  }
-                  break;
-                }
-            },
-          )
-        ]
+        actions: const [OptionDropdown()]
       ),
       body: Center(
         child : Column(
