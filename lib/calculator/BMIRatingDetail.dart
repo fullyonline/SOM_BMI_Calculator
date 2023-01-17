@@ -1,5 +1,6 @@
 import 'package:bmi_calculator/utils/BMICategories.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BMIRatingDetail extends StatelessWidget {
   const BMIRatingDetail({super.key, required this.bmiCategory});
@@ -9,7 +10,7 @@ class BMIRatingDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _biggerFont = const TextStyle(fontSize: 30);
-    final _upperLimit = bmiCategory.upperLimit > 100 ? "unbegrenzt" : bmiCategory.upperLimit.toString();
+    final _upperLimit = bmiCategory.upperLimit > 100 ? AppLocalizations.of(context)!.infinite : bmiCategory.upperLimit.toString();
     final _lowerLimit = bmiCategory.lowerLimit < 0.1 ? "0.0" : bmiCategory.lowerLimit.toString();
 
     return Scaffold(
@@ -22,13 +23,13 @@ class BMIRatingDetail extends StatelessWidget {
             mainAxisSize: MainAxisSize.min, // vertikale Ausrichtung
             children: [
               Text(
-                "Rating details",
+                AppLocalizations.of(context)!.ratingDetails,
                 style: _biggerFont,
               ),
-              Text("Description:"),
+              Text(AppLocalizations.of(context)!.description),
               Text(bmiCategory.text),
-              Text("Upper limit: " + _upperLimit),
-              Text("Lower limit: " + _lowerLimit),
+              Text(AppLocalizations.of(context)!.upperLimit + _upperLimit),
+              Text(AppLocalizations.of(context)!.lowerLimit + _lowerLimit),
             ],
         )
 

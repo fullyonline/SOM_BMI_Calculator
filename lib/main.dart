@@ -1,6 +1,7 @@
 import 'package:bmi_calculator/calculator/BMIInput.dart';
 import 'package:bmi_calculator/OptionDropdown.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,6 +18,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       home: const MyHomePage(title: 'BMI App'),
     );
   }
@@ -34,7 +37,7 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Body Mass Index"),
+        title: Text(AppLocalizations.of(context)!.labelBmi),
         actions: const [OptionDropdown()]
       ),
       body: Container(
@@ -44,10 +47,10 @@ class MyHomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center, // horizontale Ausrichtung innerhalb der Column
             mainAxisSize: MainAxisSize.min, // vertikale Ausrichtung
             children: [
-              Text("Body mass index (BMI) is a value derived from the mass (weight) and height of a person. The BMI is defined as the body mass divided by the square of the body height, and is expressed in units of kg/m2, resulting from mass in kilograms and height in metres."),
+              Text(AppLocalizations.of(context)!.labelBmiText),
               TextButton(
                   onPressed: () => onPressed(context),
-                  child: Text("Go to BMI Calculator")
+                  child: Text(AppLocalizations.of(context)!.labelGoToCalc)
               )
             ],
           ),

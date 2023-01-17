@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../preferences/UserPreferences.dart';
 import 'LoadResult.dart';
@@ -10,7 +11,7 @@ class UserSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('User settings'),
+        title: Text(AppLocalizations.of(context)!.userSettings),
       ),
       body: Center(
           child: DropDown()
@@ -33,14 +34,14 @@ class DropDownWidget extends State {
 
   Future onPressed(BuildContext context) async {
     Widget cancelButton = TextButton(
-      child: const Text("Cancel"),
+      child: Text(AppLocalizations.of(context)!.cancel),
       onPressed: () {
         Navigator.of(context).pop();
       },
     );
 
     Widget okButton = TextButton(
-      child: const Text("OK"),
+      child: Text(AppLocalizations.of(context)!.ok),
       onPressed: () {
         if (!spinnerItems.contains(enteredUser)) {
           setState(() {
@@ -55,7 +56,7 @@ class DropDownWidget extends State {
     );
 
     AlertDialog alert = AlertDialog(
-      title: Text("Enter username"),
+      title: Text(AppLocalizations.of(context)!.enterUserName),
       content: TextField(
         onChanged: (text) {
           enteredUser = text;
@@ -117,10 +118,10 @@ class DropDownWidget extends State {
                       crossAxisAlignment: CrossAxisAlignment.center, // horizontale Ausrichtung innerhalb der Column
                       mainAxisSize: MainAxisSize.min, // vertikale Ausrichtung
                       children: <Widget>[
-                        const Text('No users available'),
+                        Text(AppLocalizations.of(context)!.noUser),
                         ElevatedButton(
                           onPressed: () async => await onPressed(context),
-                          child: const Text('Create user'),
+                          child: Text(AppLocalizations.of(context)!.createUser),
                         ),
                       ],
                     );
@@ -155,7 +156,7 @@ class DropDownWidget extends State {
                         ),
                         ElevatedButton(
                           onPressed: () async => await onPressed(context),
-                          child: const Text('Create user'),
+                          child: Text(AppLocalizations.of(context)!.createUser),
                         ),
                       ],
                     );

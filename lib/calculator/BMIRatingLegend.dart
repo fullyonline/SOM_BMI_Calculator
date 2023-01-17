@@ -1,6 +1,7 @@
 import 'package:bmi_calculator/calculator/BMIRatingDetail.dart';
 import 'package:bmi_calculator/utils/BMICategories.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BMIRatingLegend extends StatelessWidget {
   var _legendElements = <String>[];
@@ -13,7 +14,7 @@ class BMIRatingLegend extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('BMI legend'),
+        title: Text(AppLocalizations.of(context)!.bmiLegend),
       ),
       body: ListView.builder(
           padding: const EdgeInsets.all(16.0),

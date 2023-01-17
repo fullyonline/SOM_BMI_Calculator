@@ -1,5 +1,6 @@
 import 'package:bmi_calculator/preferences/UserPreferences.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../services/BmiDto.dart';
 import '../OptionDropdown.dart';
@@ -15,7 +16,7 @@ class BMIResult extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text("Show result"),
+          title: Text(AppLocalizations.of(context)!.showResult),
           actions: const [OptionDropdown()]
       ),
       body: Center(
@@ -25,13 +26,13 @@ class BMIResult extends StatelessWidget {
           children: [
             FutureBuilder(future: _currentUser,builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
               if (snapshot.hasData && snapshot.data != null) {
-                return Text("Logged in User: ${snapshot.data}");
+                return Text("${AppLocalizations.of(context)!.loggedInUser}: ${snapshot.data}");
               }
               else {
-                return const Text("No user logged in.");
+                return Text(AppLocalizations.of(context)!.noUserLoggedIn);
               }
             }),
-            Text("BMI result:"), Text(bmiDto.bmiForForm), Text(bmiDto.bmiCategory.text)],
+            Text(AppLocalizations.of(context)!.bmiResult), Text(bmiDto.bmiForForm), Text(bmiDto.bmiCategory.text)],
         )
       )
     );

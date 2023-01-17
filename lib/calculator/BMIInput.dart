@@ -1,5 +1,6 @@
 import 'package:bmi_calculator/services/BmiDto.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../OptionDropdown.dart';
 import 'BMIResult.dart';
@@ -18,6 +19,7 @@ class BmiInputState extends State<BmiInput> {
   final heightController = TextEditingController();
   final weightController = TextEditingController();
 
+
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -30,7 +32,7 @@ class BmiInputState extends State<BmiInput> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text("Calculator"), actions: const [OptionDropdown()]),
+            title: Text(AppLocalizations.of(context)!.labelCalculator), actions: const [OptionDropdown()]),
         body: Container(
             margin: const EdgeInsets.all(30),
             child: Center(
@@ -45,9 +47,9 @@ class BmiInputState extends State<BmiInput> {
                         // vertikale Ausrichtung
                         children: <Widget>[
                           TextFormField(
-                            decoration: const InputDecoration(
-                              hintText: 'Height in cm',
-                              labelText: 'Height *',
+                            decoration: InputDecoration(
+                              hintText: AppLocalizations.of(context)!.hintTextHeight,
+                              labelText: AppLocalizations.of(context)!.labelTextHeight
                             ),
                             keyboardType: TextInputType.number,
                             controller: heightController,
@@ -56,13 +58,13 @@ class BmiInputState extends State<BmiInput> {
                                       value.isNotEmpty &&
                                       double.tryParse(value) != null)
                                   ? null
-                                  : "Enter valid number";
+                                  : AppLocalizations.of(context)!.heightcontrollerValidatorError;
                             },
                           ),
                           TextFormField(
-                            decoration: const InputDecoration(
-                              hintText: 'Weight in kg',
-                              labelText: 'Weight *',
+                            decoration: InputDecoration(
+                              hintText: AppLocalizations.of(context)!.hintTextWeight,
+                              labelText: AppLocalizations.of(context)!.labelTextWeight,
                             ),
                             keyboardType: TextInputType.number,
                             controller: weightController,
@@ -71,7 +73,7 @@ class BmiInputState extends State<BmiInput> {
                                       value.isNotEmpty &&
                                       double.tryParse(value) != null)
                                   ? null
-                                  : "Enter valid number";
+                                  : AppLocalizations.of(context)!.weightcontrollerValidatorError;
                             },
                           ),
                           Container(
@@ -89,7 +91,7 @@ class BmiInputState extends State<BmiInput> {
                                       heightController.text = "";
                                       weightController.text = "";
                                     },
-                                    child: const Text('Clear all Values'),
+                                    child: Text(AppLocalizations.of(context)!.clearAllValues),
                                   ),
                                 ),
                                 Container(
@@ -111,13 +113,13 @@ class BmiInputState extends State<BmiInput> {
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
-                                          const SnackBar(
+                                          SnackBar(
                                               content: Text(
-                                                  'Please fill in the width and height.')),
+                                                  AppLocalizations.of(context)!.weightAndHeightError)),
                                         );
                                       }
                                     },
-                                    child: const Text('Calculate'),
+                                    child: Text(AppLocalizations.of(context)!.labelCalculate),
                                   ),
                                 ),
                               ],
