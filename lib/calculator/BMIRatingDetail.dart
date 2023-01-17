@@ -25,7 +25,7 @@ class BMIRatingDetail extends StatelessWidget {
                 "Rating details",
                 style: _biggerFont,
               ),
-              Text("Description"),
+              Text("Description:"),
               Text(bmiCategory.text),
               Text("Upper limit: " + _upperLimit),
               Text("Lower limit: " + _lowerLimit),
