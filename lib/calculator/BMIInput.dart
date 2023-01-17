@@ -33,7 +33,9 @@ class BmiInputState extends State<BmiInput> {
           title: Text("Calculator"),
           actions: const [OptionDropdown()]
       ),
-      body: Center(
+      body:  Container(
+        margin: const EdgeInsets.all(30),
+        child: Center(
           child: SizedBox(
             width: 400,
             child: Form(
@@ -83,6 +85,7 @@ class BmiInputState extends State<BmiInput> {
             ),
           )
         )
+      )
       )
     );
   }

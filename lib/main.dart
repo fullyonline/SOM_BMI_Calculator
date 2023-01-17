@@ -37,17 +37,20 @@ class MyHomePage extends StatelessWidget {
         title: const Text("Body Mass Index"),
         actions: const [OptionDropdown()]
       ),
-      body: Center(
-        child : Column(
-          crossAxisAlignment: CrossAxisAlignment.center, // horizontale Ausrichtung innerhalb der Column
-          mainAxisSize: MainAxisSize.min, // vertikale Ausrichtung
-          children: [
-            Text("Body mass index (BMI) is a value derived from the mass (weight) and height of a person. The BMI is defined as the body mass divided by the square of the body height, and is expressed in units of kg/m2, resulting from mass in kilograms and height in metres."),
-            TextButton(
-                onPressed: () => onPressed(context),
-                child: Text("Go to BMI Calculator")
-            )
-          ],
+      body: Container(
+        margin: const EdgeInsets.all(30),
+        child: Center(
+          child : Column(
+            crossAxisAlignment: CrossAxisAlignment.center, // horizontale Ausrichtung innerhalb der Column
+            mainAxisSize: MainAxisSize.min, // vertikale Ausrichtung
+            children: [
+              Text("Body mass index (BMI) is a value derived from the mass (weight) and height of a person. The BMI is defined as the body mass divided by the square of the body height, and is expressed in units of kg/m2, resulting from mass in kilograms and height in metres."),
+              TextButton(
+                  onPressed: () => onPressed(context),
+                  child: Text("Go to BMI Calculator")
+              )
+            ],
+          ),
         ),
       ),
     );
